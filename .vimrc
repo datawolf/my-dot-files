@@ -117,22 +117,3 @@ filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和
 " :PluginInstall    - 安装插件,追加 `!` 用以更新或使用 :PluginUpdate
 " :PluginSearch foo - 搜索 foo ; 追加 `!` 清除本地缓存
 " :PluginClean      - 清除未使用插件,需要确认; 追加 `!` 自动批准移除未使用插件
-
-
-function hostip() {
-        local_host="`hostname --fqdn`"
-        local_ip=`host $local_host 2>/dev/null | awk '{print $NF}'`
-
-        echo "$local_ip"
-}
-
-function nonzero_return() {
-        RETVAL=$?
-        if [ $RETVAL -ne 0 ]; then
-                echo -e "\e[31m$RETVAL\e[0m"
-        else
-                echo "0"
-        fi
-}
-
-export PS1="\u@`hostip`:\w [\`nonzero_return\`] \$ "
