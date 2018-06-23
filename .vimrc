@@ -117,3 +117,6 @@ filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和
 " :PluginInstall    - 安装插件,追加 `!` 用以更新或使用 :PluginUpdate
 " :PluginSearch foo - 搜索 foo ; 追加 `!` 清除本地缓存
 " :PluginClean      - 清除未使用插件,需要确认; 追加 `!` 自动批准移除未使用插件
+
+" vim-go 配置
+let g:go_version_warning = 0
