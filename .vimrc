@@ -13,9 +13,20 @@ set hlsearch
 set showcmd
 set incsearch
 set history=500
-set showmatch
 set autoindent
 set paste
+set autowrite   " 自动保存
+set foldmethod=syntax
+set foldlevel=100  " 启动vim时不要自动折叠代码
+set textwidth=80
+set formatoptions+=t
+set cindent
+set smartindent
+set noerrorbells
+set showmatch
+set nobackup
+set noswapfile
+
 filetype plugin indent on
 syn on se title
 
@@ -106,6 +117,12 @@ Plugin 'rosstimson/bats.vim'
 " 安装L9，如果已经安装过这个插件，可利用以下格式避免命名冲突
 "Plugin 'ascenator/L9', {'name': 'newL9'}
 
+
+Plugin 'majutsushi/tagbar'	"Tag bar"
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'scrooloose/nerdtree'
+Plugin 'vim-airline/vim-airline' | Plugin 'vim-airline/vim-airline-themes' " Status line"
+
 " 你的所有插件需要在下面这行之前
 call vundle#end()            " 必须
 filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和文件类型相关脚本
@@ -118,5 +135,71 @@ filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和
 " :PluginSearch foo - 搜索 foo ; 追加 `!` 清除本地缓存
 " :PluginClean      - 清除未使用插件,需要确认; 追加 `!` 自动批准移除未使用插件
 
-" vim-go 配置
-let g:go_version_warning = 0
+
+"============== Tag bar ================================
+let g:tarbar_width=25
+autocmd BufReadPost *.cpp,*.c,*.h,*.cc,*.cxx call tagbar#autoopen()
+
+" ==============YCM==============
+let g:ycm_server_python_interpreter='/usr/bin/python'
+let g:ycm_global_ycm_extra_conf='~/.vim/.ycm_extra_conf.py'
+  " YCM 查找定义
+let mapleader=','
+nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>
+nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
+nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
+let g:ycm_collect_identifiers_from_tags_files = 1
+
+set completeopt=menu,menuone
+let g:ycm_add_preview_to_completeopt = 0  " 关闭函数原型提示
+
+let g:ycm_show_diagnostics_ui = 0 " 关闭诊断信息
+let g:ycm_server_log_level = 'info'
+let g:ycm_min_num_identifier_candidate_chars = 2  " 两个字符触发 补全
+let g:ycm_collect_identifiers_from_comments_and_strings = 1 " 收集
+let g:ycm_complete_in_strings=1
+
+noremap <c-z> <NOP>
+let g:ycm_key_invoke_completion = '<c-z>'   " YCM 里触发语义补全有一个快捷键
+let g:ycm_max_num_candidates = 15  " 候选数量
+
+let g:ycm_semantic_triggers =  {
+			\ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
+			\ 'cs,lua,javascript': ['re!\w{2}'],
+			\ }
+
+
+" =======echodoc 显示函数参数===========
+" ctags -R --fields=+lS .
+
+"======= NetRedTree=========
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+let NERDTreeWinSize=20
+let NERDTreeShowLineNumbers=1
+let NERDTreeAutoCenter=1
+let NERDTreeShowBookmarks=1
+let g:NERDTreeDirArrows = 1
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+let g:NERDTreeGlyphReadOnly = "RO"
+
+let g:winManagerWindowLayout='TagList'
+nmap wm :WMToggle<cr>
+
+
+" ========airline状态栏=========
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_section_b = '%-0.10{getcwd()}'
+let g:airline_section_c = '%t'
+let g:airline#extensions#tagbar#enabled = 1
+let g:airline_section_y = ''
+
+
+" ===============================================
+" 禁止方向键
+" ===============================================
+noremap <Up> <Nop>
+noremap <Down> <Nop>
+noremap <Left> <Nop>
+noremap <Right> <Nop>

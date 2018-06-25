@@ -9,3 +9,4 @@ cp -rf .gitconfig ~/
 cp -rf .tmux.conf ~/
 cp -rf .vim ~/
 cp -rf .vimrc ~/
+cp -rf .vim/.ycm_extra_conf.py  ~/.vim/
